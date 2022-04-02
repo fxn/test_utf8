@@ -1,0 +1,22 @@
+name: "CI"
+on:
+  push:
+    branches:
+      - "*"
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - "windows-latest"
+        ruby-version:
+          - "2.5"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "ruby/setup-ruby@v1"
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+      - run: "ruby -EUTF-8 test_utf8.rb"
